@@ -1,4 +1,4 @@
-package pro.sorokovsky.sorokchatserverspring.entities;
+package pro.sorokovsky.sorokchatserverspring.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

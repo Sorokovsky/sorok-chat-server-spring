@@ -1,4 +1,4 @@
-package pro.sorokovsky.sorokchatserverspring.entities;
+package pro.sorokovsky.sorokchatserverspring.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +16,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserEntity extends BaseEntity {
     @Column(nullable = false)
-    private String username = "";
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private String middleName;
 
     @Column(nullable = false)
     private String password;
