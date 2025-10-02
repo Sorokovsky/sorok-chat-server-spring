@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  database:
+    container_name: sorokchat.database
+    image: postgres:18-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: sorokchat
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5430:5432"
+    volumes:
+      - db_data:/var/lib/postgres/data
+volumes:
+  db_data:

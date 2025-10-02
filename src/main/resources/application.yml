@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: sorok-chat-server-spring
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5430/sorokchat
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
