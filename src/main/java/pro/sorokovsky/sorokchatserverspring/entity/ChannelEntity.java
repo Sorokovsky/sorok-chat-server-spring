@@ -19,8 +19,8 @@ public class ChannelEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private String description = "";
+    @Column(nullable = false)
+    private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
