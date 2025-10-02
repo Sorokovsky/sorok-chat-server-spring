@@ -24,6 +24,7 @@ public class ChannelEntity extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
+            name = "channels_members",
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "member_id")
     )
@@ -31,6 +32,7 @@ public class ChannelEntity extends BaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
+            name = "channels_messages",
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "message_id")
     )
