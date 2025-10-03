@@ -47,4 +47,21 @@ public class UserMapperTests {
         //then
         assertEquals(expected, result);
     }
+
+    @Test
+    public void merge_shouldSuccess() {
+        //given
+        final var oldState = getUserModel();
+        final var newStateUser = getNewStateUser();
+        final var expected = getUserEntity();
+        doReturn(expected.getPassword()).when(passwordEncoder).encode(newStateUser.password());
+
+        //when
+        final var result = userMapper.merge(oldState, newStateUser);
+        expected.setCreatedAt(result.getCreatedAt());
+        expected.setUpdatedAt(result.getUpdatedAt());
+
+        //given
+        assertEquals(expected, result);
+    }
 }

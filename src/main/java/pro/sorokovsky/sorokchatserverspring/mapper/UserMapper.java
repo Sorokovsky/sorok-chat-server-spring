@@ -50,6 +50,7 @@ public class UserMapper {
 
     public UserEntity merge(UserModel oldState, NewStateUser newState) {
         final var result = new UserEntity();
+        result.setId(oldState.getId());
         result.setCreatedAt(oldState.getCreatedAt());
         result.setUpdatedAt(Date.from(Instant.now()));
         result.setEmail(chooseString(oldState.getEmail(), newState.email()));

@@ -1,5 +1,6 @@
 package pro.sorokovsky.sorokchatserverspring.constants;
 
+import pro.sorokovsky.sorokchatserverspring.contract.NewStateUser;
 import pro.sorokovsky.sorokchatserverspring.contract.NewUser;
 import pro.sorokovsky.sorokchatserverspring.entity.UserEntity;
 import pro.sorokovsky.sorokchatserverspring.model.UserModel;
@@ -45,5 +46,9 @@ public class UserSeeders {
                 "Sorokovsky",
                 "Ivanovich"
         );
+    }
+
+    public static NewStateUser getNewStateUser() {
+        return new NewStateUser(null, "{new password}", "", " ", null);
     }
 }
