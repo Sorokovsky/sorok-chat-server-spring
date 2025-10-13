@@ -60,4 +60,17 @@ public class UserMapper {
         result.setMiddleName(chooseString(oldState.getMiddleName(), newState.middleName()));
         return result;
     }
+
+    public UserEntity toEntity(UserModel model) {
+        final var entity = new UserEntity();
+        entity.setId(model.getId());
+        entity.setCreatedAt(model.getCreatedAt());
+        entity.setUpdatedAt(model.getUpdatedAt());
+        entity.setEmail(model.getEmail());
+        entity.setPassword(model.getPassword());
+        entity.setFirstName(model.getFirstName());
+        entity.setLastName(model.getLastName());
+        entity.setMiddleName(model.getMiddleName());
+        return entity;
+    }
 }
