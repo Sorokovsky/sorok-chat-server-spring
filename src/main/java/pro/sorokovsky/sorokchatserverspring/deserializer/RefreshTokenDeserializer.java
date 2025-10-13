@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.sorokovsky.sorokchatserverspring.contract.Token;
-import pro.sorokovsky.sorokchatserverspring.exception.base.InvalidErrorException;
-import pro.sorokovsky.sorokchatserverspring.exception.base.TokenNotValidException;
 
 import java.text.ParseException;
 
@@ -25,10 +23,10 @@ public class RefreshTokenDeserializer extends JwtTokenDeserializer {
             return extractClaims(encrypted.getJWTClaimsSet());
         } catch (ParseException exception) {
             LOGGER.error(exception.getMessage(), exception);
-            throw new InvalidErrorException(exception.getMessage());
+            return null;
         } catch (JOSEException exception) {
             LOGGER.warn(exception.getMessage(), exception);
-            throw new TokenNotValidException(exception.getMessage());
+            return null;
         }
     }
 }
