@@ -2,8 +2,11 @@ package pro.sorokovsky.sorokchatserverspring.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +25,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(configurer -> configurer
                         .anyRequest().permitAll()
                 )
+                .csrf(CsrfConfigurer::disable)
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .sessionAuthenticationStrategy(authenticationStrategy));
@@ -31,5 +35,10 @@ public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 }

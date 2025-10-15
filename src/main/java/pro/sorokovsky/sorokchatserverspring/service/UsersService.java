@@ -1,6 +1,9 @@
 package pro.sorokovsky.sorokchatserverspring.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pro.sorokovsky.sorokchatserverspring.contract.NewStateUser;
@@ -15,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UsersService {
+public class UsersService implements UserDetailsService {
     private final UsersRepository repository;
     private final UserMapper mapper;
 
@@ -48,5 +51,11 @@ public class UsersService {
         final var user = getById(id).orElseThrow(() -> new UserNotFoundException("id", id.toString()));
         repository.deleteById(id);
         return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return getByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
 }
