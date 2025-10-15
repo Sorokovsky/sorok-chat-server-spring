@@ -1,9 +1,9 @@
 package pro.sorokovsky.sorokchatserverspring.factory;
 
+import org.springframework.security.core.Authentication;
 import pro.sorokovsky.sorokchatserverspring.contract.Token;
-import pro.sorokovsky.sorokchatserverspring.model.UserModel;
 
 import java.util.function.Function;
 
-public interface RefreshTokenFactory extends Function<UserModel, Token> {
+public interface RefreshTokenFactory extends Function<Authentication, Token> {
 }

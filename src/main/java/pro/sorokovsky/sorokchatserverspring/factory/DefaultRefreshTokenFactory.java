@@ -3,9 +3,9 @@ package pro.sorokovsky.sorokchatserverspring.factory;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import pro.sorokovsky.sorokchatserverspring.contract.Token;
-import pro.sorokovsky.sorokchatserverspring.model.UserModel;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,8 +19,8 @@ public class DefaultRefreshTokenFactory implements RefreshTokenFactory {
     private Duration lifetime = Duration.ofDays(7);
 
     @Override
-    public Token apply(UserModel user) {
+    public Token apply(Authentication authentication) {
         final var now = Instant.now();
-        return new Token(user.getEmail(), UUID.randomUUID(), now, now.plus(lifetime));
+        return new Token(authentication.getName(), UUID.randomUUID(), now, now.plus(lifetime));
     }
 }

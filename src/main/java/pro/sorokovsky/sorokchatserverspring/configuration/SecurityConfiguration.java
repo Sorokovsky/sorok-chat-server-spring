@@ -8,18 +8,23 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import pro.sorokovsky.sorokchatserverspring.strategy.TokensSessionAuthenticationStrategy;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            TokensSessionAuthenticationStrategy authenticationStrategy
+    ) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(configurer -> configurer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionAuthenticationStrategy(authenticationStrategy));
         return http.build();
     }
 
