@@ -36,7 +36,7 @@ public class TokensConfiguration {
             throws ParseException, KeyLengthException {
         return new RefreshTokenSerializer(
                 JWEAlgorithm.DIR,
-                EncryptionMethod.A128GCM,
+                EncryptionMethod.A192GCM,
                 new DirectEncrypter(OctetSequenceKey.parse(encryptingKey))
         );
     }

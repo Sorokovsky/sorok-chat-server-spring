@@ -3,10 +3,8 @@ package pro.sorokovsky.sorokchatserverspring.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pro.sorokovsky.sorokchatserverspring.contract.LoginDto;
 import pro.sorokovsky.sorokchatserverspring.contract.NewUser;
 import pro.sorokovsky.sorokchatserverspring.service.AuthenticationService;
 
@@ -20,5 +18,11 @@ public class AuthenticationController {
     public ResponseEntity<?> register(@Valid @RequestBody NewUser newUser) {
         final var created = service.register(newUser);
         return ResponseEntity.ok(created);
+    }
+
+    @PutMapping("login")
+    ResponseEntity<?> login(@Valid @RequestBody LoginDto loginDto) {
+        service.login(loginDto);
+        return ResponseEntity.noContent().build();
     }
 }
