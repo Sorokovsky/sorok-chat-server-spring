@@ -3,7 +3,6 @@ package pro.sorokovsky.sorokchatserverspring.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,7 +27,6 @@ public class AuthenticationService {
 
     private final UsersService usersService;
     private final TokensSessionAuthenticationStrategy authenticationStrategy;
-    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final AccessTokenStorage accessTokenStorage;
     private final RefreshTokenStorage refreshTokenStorage;
