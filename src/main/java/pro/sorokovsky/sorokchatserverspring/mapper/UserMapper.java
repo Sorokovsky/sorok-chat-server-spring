@@ -3,6 +3,7 @@ package pro.sorokovsky.sorokchatserverspring.mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pro.sorokovsky.sorokchatserverspring.contract.GetUser;
 import pro.sorokovsky.sorokchatserverspring.contract.NewStateUser;
 import pro.sorokovsky.sorokchatserverspring.contract.NewUser;
 import pro.sorokovsky.sorokchatserverspring.entity.UserEntity;
@@ -19,6 +20,18 @@ public class UserMapper {
     private static String chooseString(String oldString, String newString) {
         if (newString == null || newString.isBlank()) return oldString;
         return newString;
+    }
+
+    public GetUser toGetUser(UserModel userModel) {
+        return new GetUser(
+                userModel.getId(),
+                userModel.getCreatedAt(),
+                userModel.getUpdatedAt(),
+                userModel.getEmail(),
+                userModel.getFirstName(),
+                userModel.getLastName(),
+                userModel.getMiddleName()
+        );
     }
 
     public UserModel toModel(UserEntity entity) {

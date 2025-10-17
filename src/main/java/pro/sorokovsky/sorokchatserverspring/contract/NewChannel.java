@@ -9,7 +9,6 @@ public record NewChannel(
         @NotNull(message = "errors.not-empty")
         @NotBlank(message = "errors.not-empty")
         @Schema(
-                name = "Ім'я",
                 description = "Ім'я для нового чату",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Крутий чат"
@@ -18,7 +17,6 @@ public record NewChannel(
 
         @NotBlank(message = "errors.not-empty")
         @Schema(
-                name = "Опис",
                 description = "Опис нового чату",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED,
                 defaultValue = "Дуже крутий чат"

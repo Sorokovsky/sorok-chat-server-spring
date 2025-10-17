@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 public record NewStateMessage(
         @NotBlank(message = "errors.not-empty")
         @Schema(
-                name = "Текст",
                 description = "Новий текст повідомлення",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED,
                 defaultValue = "Вітаю у крутому чаті!"

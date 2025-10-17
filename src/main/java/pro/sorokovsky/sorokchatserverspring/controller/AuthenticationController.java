@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pro.sorokovsky.sorokchatserverspring.contract.GetUser;
 import pro.sorokovsky.sorokchatserverspring.contract.LoginDto;
 import pro.sorokovsky.sorokchatserverspring.contract.NewUser;
+import pro.sorokovsky.sorokchatserverspring.mapper.UserMapper;
 import pro.sorokovsky.sorokchatserverspring.service.AuthenticationService;
 
 @RestController
@@ -13,11 +15,12 @@ import pro.sorokovsky.sorokchatserverspring.service.AuthenticationService;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService service;
+    private final UserMapper mapper;
 
     @PostMapping("registration")
-    public ResponseEntity<?> register(@Valid @RequestBody NewUser newUser) {
+    public ResponseEntity<GetUser> register(@Valid @RequestBody NewUser newUser) {
         final var created = service.register(newUser);
-        return ResponseEntity.ok(created);
+        return ResponseEntity.ok(mapper.toGetUser(created));
     }
 
     @PutMapping("login")

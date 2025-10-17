@@ -12,7 +12,6 @@ public record NewUser(
         @NotBlank(message = "errors.not-empty")
         @NotNull(message = "errors.not-empty")
         @Schema(
-                name = "Електронна адреса",
                 description = "Електронна адреса нового користувача",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Sorokovskys@ukr.net"
@@ -23,7 +22,6 @@ public record NewUser(
         @Size(min = 8, message = "{errors.size}")
         @NotNull(message = "errors.not-empty")
         @Schema(
-                name = "Пароль",
                 description = "Пароль нового користувача",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "password"
@@ -33,7 +31,6 @@ public record NewUser(
         @NotBlank(message = "errors.not-empty")
         @NotNull(message = "errors.not-empty")
         @Schema(
-                name = "Ім'я",
                 description = "Ім'я нового користувача",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Андрій"
@@ -43,7 +40,6 @@ public record NewUser(
         @NotBlank(message = "errors.not-empty")
         @NotNull(message = "errors.not-empty")
         @Schema(
-                name = "Прізвище",
                 description = "Прізвище нового користувача",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Сороковський"
@@ -53,7 +49,6 @@ public record NewUser(
         @NotBlank(message = "errors.not-empty")
         @NotNull(message = "errors.not-empty")
         @Schema(
-                name = "По батькові",
                 description = "По батькові нового користувача",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Іванович"

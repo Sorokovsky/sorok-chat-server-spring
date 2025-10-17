@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 public record NewStateChannel(
         @NotBlank(message = "errors.not-empty")
         @Schema(
-                name = "Назва",
                 description = "Нова назва чату",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED,
                 defaultValue = "Супер крутий чат"
@@ -16,7 +15,6 @@ public record NewStateChannel(
 
         @NotBlank(message = "errors.not-empty")
         @Schema(
-                name = "Опис",
                 description = "Новий опис чату",
                 requiredMode = Schema.RequiredMode.NOT_REQUIRED,
                 defaultValue = "Супер дуже крутий чат"

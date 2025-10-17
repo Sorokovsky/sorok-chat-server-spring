@@ -9,7 +9,6 @@ public record NewMessage(
         @NotNull(message = "errors.not-empty")
         @NotBlank(message = "errors.not-empty")
         @Schema(
-                name = "Текст",
                 description = "Зміст нового повідомлення",
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Привіт!"
