@@ -29,7 +29,7 @@ public class AuthenticationController {
 
     @PutMapping("login")
     @Operation(summary = "Вхід", description = "Автентифікація користувача")
-    ResponseEntity<Void> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginDto loginDto) {
         service.login(loginDto);
         return ResponseEntity.noContent().build();
     }
