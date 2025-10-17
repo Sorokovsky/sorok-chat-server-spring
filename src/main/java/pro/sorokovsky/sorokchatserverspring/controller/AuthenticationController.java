@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import pro.sorokovsky.sorokchatserverspring.contract.GetUser;
 import pro.sorokovsky.sorokchatserverspring.contract.LoginDto;
 import pro.sorokovsky.sorokchatserverspring.contract.NewUser;
 import pro.sorokovsky.sorokchatserverspring.mapper.UserMapper;
+import pro.sorokovsky.sorokchatserverspring.model.UserModel;
 import pro.sorokovsky.sorokchatserverspring.service.AuthenticationService;
 
 @RestController
@@ -39,5 +41,11 @@ public class AuthenticationController {
     public ResponseEntity<Void> logout() {
         service.logout();
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("profile")
+    @Operation(summary = "Користувач", description = "Отримання авторизованого користувача")
+    public ResponseEntity<GetUser> getUser(@AuthenticationPrincipal UserModel user) {
+        return ResponseEntity.ok(mapper.toGetUser(user));
     }
 }

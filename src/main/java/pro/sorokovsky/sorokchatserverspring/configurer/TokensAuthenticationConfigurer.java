@@ -25,7 +25,7 @@ public class TokensAuthenticationConfigurer implements SecurityConfigurer<Defaul
         final var converter = new TokensAuthenticationConverter(accessTokenStorage);
         final var authenticationManager = builder.getSharedObject(AuthenticationManager.class);
         final var filter = new AuthenticationFilter(authenticationManager, converter);
-        filter.setFailureHandler((request, response, exception) -> {
+        filter.setFailureHandler((_, response, _) -> {
             response.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Bearer");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
         });

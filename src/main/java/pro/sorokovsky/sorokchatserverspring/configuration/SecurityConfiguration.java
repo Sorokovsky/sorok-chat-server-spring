@@ -19,7 +19,7 @@ import pro.sorokovsky.sorokchatserverspring.service.AccessTokenStorage;
 import pro.sorokovsky.sorokchatserverspring.strategy.TokensSessionAuthenticationStrategy;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(
@@ -30,7 +30,9 @@ public class SecurityConfiguration {
     ) throws Exception {
         http
                 .authorizeHttpRequests(configurer -> configurer
-                        .anyRequest().permitAll()
+                        .requestMatchers("swagger-ui/**", "v3/**").permitAll()
+                        .requestMatchers("/authentication/registration", "authentication/login").anonymous()
+                        .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
                 .csrf(CsrfConfigurer::disable)
