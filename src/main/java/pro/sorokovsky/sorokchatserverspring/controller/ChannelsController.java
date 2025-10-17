@@ -12,6 +12,7 @@ import pro.sorokovsky.sorokchatserverspring.contract.GetChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewMessage;
 import pro.sorokovsky.sorokchatserverspring.contract.NewStateChannel;
+import pro.sorokovsky.sorokchatserverspring.exception.channel.ChannelNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.exception.message.MessageNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.exception.user.UserNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.mapper.ChannelMapper;
@@ -37,6 +38,14 @@ public class ChannelsController {
     public ResponseEntity<List<GetChannel>> getByMe(@AuthenticationPrincipal UserModel user) {
         final var channels = service.getAllWhereContainsUser(user);
         return ResponseEntity.ok(channels.stream().map(mapper::toGetChannel).toList());
+    }
+
+    @GetMapping("by-name/{name}")
+    @Operation(summary = "Шукати за ім'ям")
+    public ResponseEntity<GetChannel> getByName(@PathVariable String name) {
+        final var channel = service.getByName(name)
+                .orElseThrow(() -> new ChannelNotFoundException("name", name));
+        return ResponseEntity.ok(mapper.toGetChannel(channel));
     }
 
     @PostMapping
