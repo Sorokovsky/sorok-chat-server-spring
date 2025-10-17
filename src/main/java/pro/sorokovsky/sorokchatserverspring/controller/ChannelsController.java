@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pro.sorokovsky.sorokchatserverspring.contract.GetChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewMessage;
+import pro.sorokovsky.sorokchatserverspring.contract.NewStateChannel;
 import pro.sorokovsky.sorokchatserverspring.exception.message.MessageNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.exception.user.UserNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.mapper.ChannelMapper;
@@ -88,5 +89,20 @@ public class ChannelsController {
         final var channel = service.removeMessage(channelId, message);
         messagesService.remove(messageId);
         return ResponseEntity.ok(mapper.toGetChannel(channel));
+    }
+
+    @PatchMapping("{id}")
+    @Operation(summary = "Оновлення чату", description = "Оновлення чату")
+    public ResponseEntity<GetChannel> updateChannel(
+            @PathVariable Long id, @Valid @RequestBody NewStateChannel newStateChannel) {
+        final var channel = service.update(newStateChannel, id);
+        return ResponseEntity.ok(mapper.toGetChannel(channel));
+    }
+
+    @DeleteMapping("{id}")
+    @Operation(summary = "Видаллення чату", description = "Видалення чату")
+    public ResponseEntity<GetChannel> deleteChannel(@PathVariable Long id) {
+        final var deleted = service.remove(id);
+        return ResponseEntity.ok(mapper.toGetChannel(deleted));
     }
 }

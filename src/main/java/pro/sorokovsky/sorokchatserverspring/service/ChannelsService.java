@@ -23,6 +23,7 @@ public class ChannelsService {
     private final ChannelsRepository repository;
     private final ChannelMapper mapper;
     private final UserMapper userMapper;
+    private final MessagesService messagesService;
 
     @Transactional(readOnly = true)
     public Optional<ChannelModel> getByName(String name) {
@@ -103,6 +104,7 @@ public class ChannelsService {
     @Transactional
     public ChannelModel remove(Long id) {
         final var candidate = getById(id).orElseThrow(() -> new ChannelNotFoundException("id", id.toString()));
+        candidate.getMessages().forEach(message -> messagesService.remove(message.getId()));
         repository.deleteById(id);
         return candidate;
     }
