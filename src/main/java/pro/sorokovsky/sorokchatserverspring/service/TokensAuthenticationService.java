@@ -1,4 +1,4 @@
-package pro.sorokovsky.sorokchatserverspring.provider;
+package pro.sorokovsky.sorokchatserverspring.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;

@@ -17,9 +17,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import pro.sorokovsky.sorokchatserverspring.configurer.TokensAuthenticationConfigurer;
 import pro.sorokovsky.sorokchatserverspring.factory.AccessTokenFactory;
-import pro.sorokovsky.sorokchatserverspring.provider.TokensAuthenticationService;
 import pro.sorokovsky.sorokchatserverspring.service.AccessTokenStorage;
 import pro.sorokovsky.sorokchatserverspring.service.RefreshTokenStorage;
+import pro.sorokovsky.sorokchatserverspring.service.TokensAuthenticationService;
 import pro.sorokovsky.sorokchatserverspring.strategy.TokensSessionAuthenticationStrategy;
 
 @Configuration
