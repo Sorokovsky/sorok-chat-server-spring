@@ -2,6 +2,8 @@ package pro.sorokovsky.sorokchatserverspring.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -14,8 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import pro.sorokovsky.sorokchatserverspring.configurer.TokensAuthenticationConfigurer;
+import pro.sorokovsky.sorokchatserverspring.factory.AccessTokenFactory;
 import pro.sorokovsky.sorokchatserverspring.provider.TokensAuthenticationService;
 import pro.sorokovsky.sorokchatserverspring.service.AccessTokenStorage;
+import pro.sorokovsky.sorokchatserverspring.service.RefreshTokenStorage;
 import pro.sorokovsky.sorokchatserverspring.strategy.TokensSessionAuthenticationStrategy;
 
 @Configuration
@@ -36,6 +40,12 @@ public class SecurityConfiguration {
                 )
                 .authenticationProvider(authenticationProvider)
                 .csrf(CsrfConfigurer::disable)
+                .exceptionHandling(configurer -> configurer
+                        .authenticationEntryPoint((_, response, _) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.setHeader(HttpHeaders.WWW_AUTHENTICATE, "Login");
+                        })
+                )
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .sessionAuthenticationStrategy(authenticationStrategy));
@@ -54,9 +64,15 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public TokensAuthenticationConfigurer tokensAuthenticationConfigurer(AccessTokenStorage accessTokenStorage) {
+    public TokensAuthenticationConfigurer tokensAuthenticationConfigurer(
+            AccessTokenStorage accessTokenStorage,
+            AccessTokenFactory accessTokenFactory,
+            RefreshTokenStorage refreshTokenStorage
+    ) {
         return TokensAuthenticationConfigurer.builder()
                 .accessTokenStorage(accessTokenStorage)
+                .accessTokenFactory(accessTokenFactory)
+                .refreshTokenStorage(refreshTokenStorage)
                 .build();
     }
 
