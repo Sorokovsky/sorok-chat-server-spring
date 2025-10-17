@@ -34,10 +34,10 @@ public class AuthenticationService {
         if (attributes == null) throw new InvalidErrorException("Invalid request");
         final var request = attributes.getRequest();
         final var response = attributes.getResponse();
-        final var userNameAuthenticatedToken = new UsernamePasswordAuthenticationToken(email, password);
-        final var authenticationToken = authenticationManager.authenticate(userNameAuthenticatedToken);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        authenticationStrategy.onAuthentication(authenticationToken, request, response);
+        final var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(email, password);
+        final var authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        authenticationStrategy.onAuthentication(authentication, request, response);
     }
 
     public void login(LoginDto loginDto) {
