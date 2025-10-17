@@ -2,6 +2,7 @@ package pro.sorokovsky.sorokchatserverspring.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import pro.sorokovsky.sorokchatserverspring.contract.GetChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewChannel;
+import pro.sorokovsky.sorokchatserverspring.contract.NewMessage;
+import pro.sorokovsky.sorokchatserverspring.exception.message.MessageNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.exception.user.UserNotFoundException;
 import pro.sorokovsky.sorokchatserverspring.mapper.ChannelMapper;
 import pro.sorokovsky.sorokchatserverspring.model.UserModel;
 import pro.sorokovsky.sorokchatserverspring.service.ChannelsService;
+import pro.sorokovsky.sorokchatserverspring.service.MessagesService;
 import pro.sorokovsky.sorokchatserverspring.service.UsersService;
 
 import java.util.List;
@@ -25,6 +29,7 @@ public class ChannelsController {
     private final ChannelsService service;
     private final ChannelMapper mapper;
     private final UsersService usersService;
+    private final MessagesService messagesService;
 
     @GetMapping("by-me")
     @Operation(summary = "Мої чати", description = "Отримання всіх чатів користувача")
@@ -60,6 +65,28 @@ public class ChannelsController {
         final var user = usersService.getById(userId)
                 .orElseThrow(() -> new UserNotFoundException("id", userId.toString()));
         final var channel = service.removeMembers(channelId, List.of(user));
+        return ResponseEntity.ok(mapper.toGetChannel(channel));
+    }
+
+    @PutMapping("add-message/{channelId}")
+    @Operation(summary = "Написати до чату", description = "Додати повідомлення до чату")
+    public ResponseEntity<GetChannel> addMessage(
+            @PathVariable Long channelId,
+            @Valid @RequestBody NewMessage newMessage,
+            @AuthenticationPrincipal UserModel user
+    ) {
+        final var message = messagesService.create(newMessage, user);
+        final var channel = service.addMessage(channelId, message);
+        return ResponseEntity.ok(mapper.toGetChannel(channel));
+    }
+
+    @PutMapping("remove-message/{channelId}/{messageId}")
+    @Operation(summary = "Видалити повідомлення з чату", description = "Вилучити повідомлення з чату")
+    public ResponseEntity<GetChannel> removeMessage(@PathVariable Long channelId, @PathVariable Long messageId) {
+        final var message = messagesService.getById(messageId)
+                .orElseThrow(() -> new MessageNotFoundException("id", messageId.toString()));
+        final var channel = service.removeMessage(channelId, message);
+        messagesService.remove(messageId);
         return ResponseEntity.ok(mapper.toGetChannel(channel));
     }
 }
