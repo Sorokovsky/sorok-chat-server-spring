@@ -25,8 +25,7 @@ public class ExceptionHandlerController {
             Locale locale
     ) {
         final var arguments = new Object[]{exception.getEntity(), exception.getKey(), exception.getValue()};
-        final var defaultMessage = messageSource.getMessage(exception.getMessageCode(), arguments, Locale.getDefault());
-        final var message = messageSource.getMessage(exception.getMessageCode(), arguments, defaultMessage, locale);
+        final var message = getMessage(exception.getMessageCode(), arguments, locale);
         return ResponseEntity
                 .status(exception.getStatusCode())
                 .body(new ErrorModel(exception.getStatusCode().value(), message));
@@ -41,5 +40,10 @@ public class ExceptionHandlerController {
             errors.put(key, value);
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    private String getMessage(String code, Object[] arguments, Locale locale) {
+        final var defaultMessage = messageSource.getMessage(code, arguments, Locale.getDefault());
+        return messageSource.getMessage(code, arguments, defaultMessage, locale);
     }
 }
