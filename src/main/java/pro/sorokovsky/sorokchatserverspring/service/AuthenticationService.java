@@ -22,6 +22,8 @@ public class AuthenticationService {
     private final TokensSessionAuthenticationStrategy authenticationStrategy;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+    private final AccessTokenStorage accessTokenStorage;
+    private final RefreshTokenStorage refreshTokenStorage;
 
     public UserModel register(NewUser newUser) {
         final var createdUser = usersService.create(newUser);
@@ -46,5 +48,14 @@ public class AuthenticationService {
         if (passwordEncoder.matches(loginDto.password(), candidate.getPassword())) {
             authenticate(loginDto.email(), loginDto.password());
         }
+    }
+
+    public void logout() {
+        final var attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) throw new InvalidErrorException("Invalid request");
+        final var response = attributes.getResponse();
+        if (response == null) throw new InvalidErrorException("Invalid response");
+        accessTokenStorage.clearToken(response);
+        refreshTokenStorage.clearToken(response);
     }
 }
