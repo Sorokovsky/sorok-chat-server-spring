@@ -13,6 +13,7 @@ import pro.sorokovsky.sorokchatserverspring.model.MessageModel;
 import pro.sorokovsky.sorokchatserverspring.model.UserModel;
 import pro.sorokovsky.sorokchatserverspring.repository.ChannelsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +60,9 @@ public class ChannelsService {
         if (channel == null) throw new ChannelNotFoundException("id", channelId.toString());
         for (var member : members) {
             if (!channel.getMembers().contains(member)) {
-                channel.getMembers().add(member);
+                final var newMembers = new ArrayList<>(channel.getMembers());
+                newMembers.add(member);
+                channel.setMembers(newMembers.stream().toList());
             }
         }
         return mapper.toModel(repository.save(mapper.toEntity(channel)));
@@ -70,7 +73,9 @@ public class ChannelsService {
         final var channel = getById(channelId).orElse(null);
         if (channel == null) throw new ChannelNotFoundException("id", channelId.toString());
         for (var member : members) {
-            channel.getMembers().remove(member);
+            channel.setMembers(channel.getMembers().stream()
+                    .filter(user -> !user.getId().equals(member.getId()))
+                    .toList());
         }
         return mapper.toModel(repository.save(mapper.toEntity(channel)));
     }
@@ -80,7 +85,9 @@ public class ChannelsService {
         final var channel = getById(channelId).orElse(null);
         if (channel == null) throw new ChannelNotFoundException("id", channelId.toString());
         if (!channel.getMessages().contains(message)) {
-            channel.getMessages().add(message);
+            final var newMessages = new ArrayList<>(channel.getMessages());
+            newMessages.add(message);
+            channel.setMessages(newMessages.stream().toList());
         }
         return mapper.toModel(repository.save(mapper.toEntity(channel)));
     }
@@ -89,7 +96,7 @@ public class ChannelsService {
     public ChannelModel removeMessage(Long channelId, MessageModel message) {
         final var channel = getById(channelId).orElse(null);
         if (channel == null) throw new ChannelNotFoundException("id", channelId.toString());
-        channel.getMessages().remove(message);
+        channel.setMessages(channel.getMessages().stream().filter(m -> !m.equals(message)).toList());
         return mapper.toModel(repository.save(mapper.toEntity(channel)));
     }
 

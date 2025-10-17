@@ -2,6 +2,7 @@ package pro.sorokovsky.sorokchatserverspring.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pro.sorokovsky.sorokchatserverspring.contract.GetChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewChannel;
 import pro.sorokovsky.sorokchatserverspring.contract.NewStateChannel;
 import pro.sorokovsky.sorokchatserverspring.entity.ChannelEntity;
@@ -21,6 +22,18 @@ public class ChannelMapper {
     private static String chooseString(String oldString, String newString) {
         if (newString == null || newString.isBlank()) return oldString;
         return newString;
+    }
+
+    public GetChannel toGetChannel(ChannelModel model) {
+        return new GetChannel(
+                model.getId(),
+                model.getCreatedAt(),
+                model.getUpdatedAt(),
+                model.getName(),
+                model.getDescription(),
+                model.getMembers().stream().map(userMapper::toGetUser).toList(),
+                model.getMessages().stream().map(messageMapper::toGetMessage).toList()
+        );
     }
 
     public ChannelModel toModel(ChannelEntity entity) {

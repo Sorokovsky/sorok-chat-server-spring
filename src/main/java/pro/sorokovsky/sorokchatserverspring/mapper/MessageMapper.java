@@ -2,6 +2,7 @@ package pro.sorokovsky.sorokchatserverspring.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pro.sorokovsky.sorokchatserverspring.contract.GetMessage;
 import pro.sorokovsky.sorokchatserverspring.contract.NewMessage;
 import pro.sorokovsky.sorokchatserverspring.contract.NewStateMessage;
 import pro.sorokovsky.sorokchatserverspring.entity.MessageEntity;
@@ -29,6 +30,16 @@ public class MessageMapper {
         model.setText(entity.getText());
         model.setAuthor(userMapper.toModel(entity.getAuthor()));
         return model;
+    }
+
+    public GetMessage toGetMessage(MessageModel model) {
+        return new GetMessage(
+                model.getId(),
+                model.getCreatedAt(),
+                model.getUpdatedAt(),
+                model.getText(),
+                userMapper.toGetUser(model.getAuthor())
+        );
     }
 
     public MessageEntity toEntity(MessageModel model) {
