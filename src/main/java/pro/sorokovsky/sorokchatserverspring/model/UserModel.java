@@ -20,6 +20,7 @@ public class UserModel extends BaseModel implements UserDetails {
     private String firstName;
     private String lastName;
     private String middleName;
+    private String macSecret;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

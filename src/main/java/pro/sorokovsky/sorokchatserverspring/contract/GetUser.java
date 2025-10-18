@@ -45,6 +45,12 @@ public record GetUser(
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 example = "Іванович"
         )
-        String middleName
+        String middleName,
+        @Schema(
+                description = "Ключ",
+                requiredMode = Schema.RequiredMode.REQUIRED,
+                example = "Ключ"
+        )
+        String macSecret
 ) {
 }

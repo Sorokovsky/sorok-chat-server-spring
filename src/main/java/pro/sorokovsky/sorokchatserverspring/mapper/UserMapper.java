@@ -11,6 +11,7 @@ import pro.sorokovsky.sorokchatserverspring.model.UserModel;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,8 @@ public class UserMapper {
                 userModel.getEmail(),
                 userModel.getFirstName(),
                 userModel.getLastName(),
-                userModel.getMiddleName()
+                userModel.getMiddleName(),
+                userModel.getMacSecret()
         );
     }
 
@@ -44,6 +46,7 @@ public class UserMapper {
         model.setFirstName(entity.getFirstName());
         model.setLastName(entity.getLastName());
         model.setMiddleName(entity.getMiddleName());
+        model.setMacSecret(entity.getMacSecret());
         return model;
     }
 
@@ -58,6 +61,7 @@ public class UserMapper {
         entity.setFirstName(newUser.firstName());
         entity.setLastName(newUser.lastName());
         entity.setMiddleName(newUser.middleName());
+        entity.setMacSecret(UUID.randomUUID().toString());
         return entity;
     }
 
@@ -84,6 +88,7 @@ public class UserMapper {
         entity.setFirstName(model.getFirstName());
         entity.setLastName(model.getLastName());
         entity.setMiddleName(model.getMiddleName());
+        entity.setMacSecret(model.getMacSecret());
         return entity;
     }
 }
