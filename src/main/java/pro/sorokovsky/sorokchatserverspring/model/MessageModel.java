@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class MessageModel extends BaseModel {
     private String text;
     private UserModel author;
+    private String mac;
 }

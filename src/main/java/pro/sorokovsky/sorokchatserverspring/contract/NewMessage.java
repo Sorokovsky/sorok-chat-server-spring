@@ -13,6 +13,15 @@ public record NewMessage(
                 requiredMode = Schema.RequiredMode.REQUIRED,
                 defaultValue = "Привіт!"
         )
-        String text
+        String text,
+
+        @NotNull(message = "errors.not-empty")
+        @NotBlank(message = "errors.not-empty")
+        @Schema(
+                description = "Підпис повідомлення",
+                requiredMode = Schema.RequiredMode.REQUIRED,
+                defaultValue = "Привіт!"
+        )
+        String mac
 ) {
 }

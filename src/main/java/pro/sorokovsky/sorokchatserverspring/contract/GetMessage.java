@@ -28,6 +28,13 @@ public record GetMessage(
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         String text,
+
+        @Schema(
+                description = "Підпис повідомлення",
+                example = "Привіт!",
+                requiredMode = Schema.RequiredMode.REQUIRED
+        )
+        String mac,
         @Schema(implementation = GetUser.class)
         GetUser author
 ) {

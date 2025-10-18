@@ -29,6 +29,7 @@ public class MessageMapper {
         model.setUpdatedAt(entity.getUpdatedAt());
         model.setText(entity.getText());
         model.setAuthor(userMapper.toModel(entity.getAuthor()));
+        model.setMac(entity.getMac());
         return model;
     }
 
@@ -38,6 +39,7 @@ public class MessageMapper {
                 model.getCreatedAt(),
                 model.getUpdatedAt(),
                 model.getText(),
+                model.getMac(),
                 userMapper.toGetUser(model.getAuthor())
         );
     }
@@ -48,6 +50,7 @@ public class MessageMapper {
         entity.setCreatedAt(model.getCreatedAt());
         entity.setUpdatedAt(model.getUpdatedAt());
         entity.setText(model.getText());
+        entity.setMac(model.getMac());
         entity.setAuthor(userMapper.toEntity(model.getAuthor()));
         return entity;
     }
@@ -59,6 +62,7 @@ public class MessageMapper {
         entity.setUpdatedAt(now);
         entity.setAuthor(userMapper.toEntity(author));
         entity.setText(newMessage.text());
+        entity.setMac(newMessage.mac());
         return entity;
     }
 
@@ -69,6 +73,7 @@ public class MessageMapper {
         entity.setUpdatedAt(Date.from(Instant.now()));
         entity.setText(chooseString(oldState.getText(), newState.text()));
         entity.setAuthor(userMapper.toEntity(oldState.getAuthor()));
+        entity.setMac(chooseString(oldState.getMac(), newState.mac()));
         return entity;
     }
 }
