@@ -1,5 +1,12 @@
 version: "3.8"
 services:
+  server:
+    build:
+      context: .
+    depends_on:
+      - database
+    ports:
+      - "8080:8080"
   database:
     container_name: sorokchat.database
     image: postgres:18-alpine
