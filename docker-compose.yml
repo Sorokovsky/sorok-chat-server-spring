@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   server:
+    container_name: sorokchat.server
     build:
       context: .
     depends_on:

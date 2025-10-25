@@ -60,11 +60,11 @@ public class ChannelsController {
         return ResponseEntity.created(uri).body(mapper.toGetChannel(channel));
     }
 
-    @PutMapping("add-user/{channelId}/{userId}")
+    @PutMapping("add-user/{channelId}/{userEmail}")
     @Operation(summary = "Додати до чату", description = "Додати користувача до чату")
-    public ResponseEntity<GetChannel> addUser(@PathVariable Long channelId, @PathVariable Long userId) {
-        final var user = usersService.getById(userId)
-                .orElseThrow(() -> new UserNotFoundException("id", userId.toString()));
+    public ResponseEntity<GetChannel> addUser(@PathVariable Long channelId, @PathVariable String userEmail) {
+        final var user = usersService.getByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException("id", userEmail));
         final var channel = service.addMembers(channelId, List.of(user));
         return ResponseEntity.ok(mapper.toGetChannel(channel));
     }
