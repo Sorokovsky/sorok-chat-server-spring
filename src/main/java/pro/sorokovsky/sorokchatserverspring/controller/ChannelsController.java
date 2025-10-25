@@ -64,7 +64,7 @@ public class ChannelsController {
     @Operation(summary = "Додати до чату", description = "Додати користувача до чату")
     public ResponseEntity<GetChannel> addUser(@PathVariable Long channelId, @PathVariable String userEmail) {
         final var user = usersService.getByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException("id", userEmail));
+                .orElseThrow(() -> new UserNotFoundException("email", userEmail));
         final var channel = service.addMembers(channelId, List.of(user));
         return ResponseEntity.ok(mapper.toGetChannel(channel));
     }
