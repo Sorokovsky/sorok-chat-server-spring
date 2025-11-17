@@ -6,7 +6,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:postgresql://database:5432/sorokchat
+    url: jdbc:postgresql://localhost:5430/sorokchat
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
